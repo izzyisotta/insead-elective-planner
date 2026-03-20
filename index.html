@@ -225,6 +225,9 @@ var P3_CONFLICTS_SGP_DEFINITE = [
   ["Strategy &Investing for Impact", "AI for Responsible Management"],
   ["Building Business in China", "Fieldtrip to New York"]
 ];
+var P3_NOT_ON_GRID_FBL = ["Management of Services", "Tech Work", "BusinessSustainabilityThinking", "Business-to-Business Mkt (B2B)", "Strategy &Investing for Impact"];
+var P3_NOT_ON_GRID_SGP = ["BusinessSustainabilityThinking", "Family Business Management", "Market Driving Strategies", "New Business Ventures", "People Analytics", "Strategy &Investing for Impact", "Strategy Structure and Incentives"];
+
 
 function checkP3Conflicts() {
   var campus = getCampusForPeriod('P3');
@@ -298,6 +301,19 @@ function sumCredits(names,period){return names.reduce(function(s,n){var c=getCou
 function getOtherPeriods(name,cp){var ps=[],ch={};COURSES.forEach(function(c){if(c.name===name&&c.period!==cp&&!ch[c.period]){var mc=getCampusForPeriod(c.period);if(mc==='Exchange')return;if(mc==='ABD'?c.campus==='ABD':(c.campus===mc||c.campus==='Both')){ps.push(c.period);ch[c.period]=true}}});return ps.sort()}
 function periodAvailBadge(name,cp){var o=getOtherPeriods(name,cp);if(!o.length)return'<span style="font-size:.65rem;padding:1px 5px;border-radius:8px;background:rgba(231,76,60,.15);color:#e74c3c;border:1px solid rgba(231,76,60,.3);margin-left:4px">'+cp+' only</span>';return'<span style="font-size:.65rem;padding:1px 5px;border-radius:8px;background:rgba(46,204,113,.1);color:#2ecc71;margin-left:4px">Also '+o.join(', ')+'</span>'}
 function isFieldTripCourse(c){return c.tags.indexOf('field-trip')!==-1||c.name.indexOf('Building Business in')!==-1||c.name.indexOf('Fieldtrip to')!==-1}
+
+function notOnGridBadge(name, period) {
+  if (period !== 'P3') return '';
+  var campus = getCampusForPeriod('P3');
+  var list = campus === 'SGP' ? P3_NOT_ON_GRID_SGP : (campus === 'FBL' ? P3_NOT_ON_GRID_FBL : []);
+  for (var i = 0; i < list.length; i++) {
+    if (name.toLowerCase().indexOf(list[i].toLowerCase()) !== -1 || list[i].toLowerCase().indexOf(name.toLowerCase()) !== -1) {
+      return '<span style="font-size:.65rem;padding:1px 5px;border-radius:8px;background:rgba(241,196,15,.15);color:#f1c40f;border:1px solid rgba(241,196,15,.3);margin-left:4px" title="This course appears in the spreadsheet but not on the P3 conflict grid. It may not run or may be scheduled later.">Not on grid</span>';
+    }
+  }
+  return '';
+}
+
 function renderCard(name,period,isSh){var c=getCourse(name,period);if(!c)return'';var r=avgRating(c.evals),rd=(r==='Faculty'||r==='New')?r:'\u2605 '+r,desc=getDescription(c.name)||c.info||'No description available.',cid='cd-'+Math.random().toString(36).substr(2,9),sk=period.toLowerCase(),en=name.replace(/'/g,"\\'"),sc=isSh?' shortlisted':'',ab=isSh?'<button class="card-action-btn" title="Promote" onclick="promoteFromShortlist(\''+sk+'\',\''+en+'\')">&uarr;</button>':'<button class="card-action-btn" title="Shortlist" onclick="demoteToShortlist(\''+sk+'\',\''+en+'\')">&darr;</button>',ra=isSh?'removeFromShortlist(\''+sk+'\',\''+en+'\')':'removeCourse(\''+sk+'\',\''+en+'\')';return'<div class="course-card'+sc+'">'+ab+'<button class="card-remove" onclick="'+ra+'">&times;</button><div class="card-top"><span class="card-name card-name-clickable" onclick="document.getElementById(\''+cid+'\').classList.toggle(\'show\')">'+c.name+'</span></div><div class="card-top"><span class="chip '+areaClass(c.area)+'">'+c.area+'</span><span class="credit-badge">'+c.credits+' cr</span><span class="campus-badge">'+c.campus+'</span>'+(c.cutoff?'<span class="card-cutoff">Cutoff: '+c.cutoff+'</span>':'')+periodAvailBadge(c.name,c.period)+'</div><div class="card-meta"><span>'+c.professor+'</span><span>'+rd+'</span><span>'+c.seats+' seats</span></div><div class="card-desc" id="'+cid+'">'+desc+'</div></div>'}
 function demoteToShortlist(k,n){if(selections[k]){selections[k]=selections[k].filter(function(x){return x!==n});if(!shortlists[k])shortlists[k]=[];if(shortlists[k].indexOf(n)===-1)shortlists[k].push(n);saveState();render()}}
 function promoteFromShortlist(k,n){if(shortlists[k]){shortlists[k]=shortlists[k].filter(function(x){return x!==n});if(!selections[k])selections[k]=[];if(selections[k].indexOf(n)===-1)selections[k].push(n);saveState();render()}}
