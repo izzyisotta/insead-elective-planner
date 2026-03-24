@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INSEAD 26D Elective Planner</title>
+<title>INSEAD 26D Elective Planner | Isabella Isotta</title>
+<meta property="og:title" content="INSEAD 26D Elective Planner">
+<meta property="og:description" content="Interactive course planner for INSEAD MBA 26D electives. Built by Isabella Isotta.">
+<meta property="og:type" content="website">
+<meta name="author" content="Isabella Isotta">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f0f23;color:#e0e0e0;min-height:100vh}h1{text-align:center;padding:18px 0 4px;color:#4a9eff;font-size:1.6rem;letter-spacing:1px}.subtitle{text-align:center;color:#888;font-size:.85rem;margin-bottom:4px}.header-bar{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}.header-btn{padding:5px 14px;border:1px solid #333;background:#1a1a2e;color:#aaa;border-radius:6px;cursor:pointer;font-size:.78rem;transition:all .2s}.header-btn:hover{border-color:#4a9eff;color:#4a9eff}
 .area-finance{background:#2ecc71;color:#000}.area-strategy{background:#3498db;color:#fff}.area-marketing{background:#e67e22;color:#fff}.area-tom{background:#9b59b6;color:#fff}.area-decision-science{background:#1abc9c;color:#000}.area-entrepreneurship{background:#e74c3c;color:#fff}.area-ob{background:#e91e90;color:#fff}.area-accounting{background:#95a5a6;color:#000}.area-economics{background:#f39c12;color:#000}.area-at-large{background:#7f8c8d;color:#fff}
@@ -31,6 +35,14 @@
 </head>
 <body>
 <h1>INSEAD 26D Elective Planner</h1>
+<p style="text-align:center;margin-top:-8px"><a onclick="document.getElementById('about-overlay').style.display='flex'" style="color:#555;font-size:0.7rem;cursor:pointer;text-decoration:none">About this tool</a></p>
+<div id="about-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;justify-content:center;align-items:center" onclick="this.style.display='none'">
+<div style="background:#1a1a2e;border:1px solid #2a2a4e;border-radius:12px;padding:24px 32px;max-width:400px;text-align:center" onclick="event.stopPropagation()">
+<h3 style="color:#4a9eff;margin-bottom:12px">INSEAD 26D Elective Planner</h3>
+<p style="color:#aaa;font-size:0.85rem;margin-bottom:8px">Built by Isabella Isotta</p>
+<p style="color:#666;font-size:0.75rem">Course data from INSEAD MBA Office. Conflict grid data from P3 schedule.</p>
+<button onclick="document.getElementById('about-overlay').style.display='none'" style="margin-top:16px;padding:6px 20px;border:1px solid #333;background:none;color:#aaa;border-radius:6px;cursor:pointer;font-size:0.8rem">Close</button>
+</div></div>
 <p class="subtitle" id="subtitle">P3 (Fontainebleau) &middot; P4 (Fontainebleau) &middot; P5 (Singapore)</p>
 <div class="header-bar">
 <div class="campus-config-bar">
